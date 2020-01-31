@@ -14,23 +14,8 @@ import argparse
 
 description = "This script does the volume and excentricity calculation of voids from the set of points in Masterlists."
 epilog = "At the end, the script stores a VolumeAndExcentricity (.vae) file."
-parser = argparse.ArgumentParser(description=description, epilog=epilog)
 
-parser.add_argument('ocfilein', type=str)
-
-parser.add_argument('-b', '--beta', type=float,
-                    default=1.0,
-                    help='Beta Skeleton Value, a float value "b>=1". Default Value = 1.0')
-parser.add_argument('-n', '--nrand', type=float,
-                    default=1.0,
-                    help='The ratio between Number of Random Points and Number of Observational Points (nrand= N_random/N_obs)')
-
-arg = parser.parse_args()
-
-BETA  = arg.beta
-nrand = arg.nrand
-OC_FILE_IN = arg.ocfilein
-prog = "progress.txt"
+from headers import *
 
 #############################################################
 #############################################################
@@ -41,22 +26,6 @@ prog = "progress.txt"
 ##                                                         ##
 #############################################################
 ############################################################# 
-
-### Paths
-OC_path = "./observed_catalogs/"
-RC_path = "./random_catalogs/"
-FC_path = "./full_catalogs/"
-BS_path = "./xdl_beta_skeleton/"
-ML_path = "./masterlists/"
-FG_PATH = "./figures/"
-VE_path = "./volume_and_excentricity/"
-
-OC_filename = "{}.cat".format(OC_FILE_IN)
-RC_filename = "{}.cat".format(OC_FILE_IN)
-FC_filename = "{}.cat".format(OC_FILE_IN)
-BS_filename = "{}.BSKIndex".format(OC_FILE_IN)
-ML_filename = "{}.mls".format(OC_FILE_IN)
-VE_filename = "{}.vae".format(OC_FILE_IN)
 
 beta = BETA
 n_rand = nrand
@@ -109,7 +78,7 @@ if M > 0:
     #                                                               #
     #################################################################
 
-    with open(VE_path + VE_filename, "w") as file:
+    with open(VE_PATH + VE_filename, "w") as file:
         file.write("# Void_ID, X_c, Y_c, Z_c, N_particles, R=(abc)^(-1/3), a, b, c, vector_a, vector_b, vector_c \n\n")
         
         for ID in Void_N_Particles[:,0]:
@@ -234,7 +203,7 @@ FinalMessage = "\n We have fihished the process of "
 FinalMessage += "\n Finding Voids excentricity and Volume in the file with "
 FinalMessage += "\n beta: \t{}".format(beta)
 FinalMessage += "\n n_rand:\t{}".format(n_rand)
-FinalMessage += "\n\n\tOutput written in \n" + VE_path + VE_filename
+FinalMessage += "\n\n\tOutput written in \n" + VE_PATH + VE_filename
 FinalMessage += "\n\n\t Time elapsed:{} seconds".format(tic - toc)
 FinalMessage += "\n\n ########################"
 

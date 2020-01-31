@@ -2,6 +2,9 @@ import numpy as np
 import subprocess as subp
 import os
 import timeit
+
+from headers import *
+
 import argparse
 
 #############################################################
@@ -9,66 +12,15 @@ import argparse
 #                        DOCUMENTATION                      # 
 #                                                           # 
 ############################################################# 
-
-
 description = "This script uses a recursive method to identify the voids from the Beta-Skeleton File, and the Random, Observed and Full Catalog."
 epilog = "At the end, the script stores a Masterlist (.mls) file."
-parser = argparse.ArgumentParser(description=description, epilog=epilog)
-parser.add_argument('ocfilein', type=str)
-
-parser.add_argument('-b', '--beta', type=float,
-                    default=1.0,
-                    help='Beta Skeleton Value, a float value "b>=1". Default Value = 1.0')
-parser.add_argument('-n', '--nrand', type=float,
-                    default=1.0,
-                    help='The ratio between Number of Random Points and Number of Observational Points (nrand= N_random/N_obs)')
-parser.add_argument('-A', '--ALGORITHM', type=str,
-                    default="XDL",
-                    help='Algorithm used to calculate .BSKIndex, Options: "NGL", "XDL"')
-
-
-arg = parser.parse_args()
-
-BETA  = arg.beta
-nrand = arg.nrand
-ALGORITHM   = arg.ALGORITHM
-OC_FILE_IN = arg.ocfilein
-
-
-#############################################################
-#############################################################
-##                                                         ## 
-##                                                         ##
-##                Begins the Main Routine                  ## 
-##                                                         ## 
-##                                                         ##
-#############################################################
-############################################################# 
-
-
-prog = "progress_{}.txt".format(OC_FILE_IN)
-
-### Paths
-OC_path = "./observed_catalogs/"
-RC_path = "./random_catalogs/"
-FC_path = "./full_catalogs/"
-BS_path = "./xdl_beta_skeleton/"
-ML_path = "./masterlists/"
-FG_PATH = "./figures/"
-
-OC_filename = "{}.cat".format(OC_FILE_IN)
-RC_filename = "{}.cat".format(OC_FILE_IN)
-FC_filename = "{}.cat".format(OC_FILE_IN)
-BS_filename = "{}.BSKIndex".format(OC_FILE_IN)
-ML_filename = "{}.mls".format(OC_FILE_IN)
-VE_filename = "{}.vae".format(OC_FILE_IN)
 
 
 #################################################################
 #                                                               #
-#                        Load Catalogs                          #
-#                              and                              #
-#                    Corrects BetaSkeleton Format               #
+#                     Load Catalogs                             #
+#                         and                                   #
+#              Corrects BetaSkeleton Format                     #
 #                                                               #
 #################################################################
 
@@ -76,6 +28,9 @@ VE_filename = "{}.vae".format(OC_FILE_IN)
 beta = BETA
 n_rand = nrand
 toc = timeit.default_timer()
+
+prog = "progress_{}.txt".format(OC_FILE_IN)
+
 subp.run( "echo  Finding voids in {} >> {}".format(OC_FILE_IN, prog), shell=True, check=True)
 
 InitialMessage  = "\n\n\n #########################################################"
